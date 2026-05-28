@@ -1,0 +1,21 @@
+FROM python:3.12-slim
+
+# Set the working directory in the container
+WORKDIR /app
+
+COPY  requirements.txt .
+
+# Install any needed packages specified in requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+# Make port 5000 available to the world outside this container
+EXPOSE 5000
+
+# Define environment variable
+ENV DEBUG=False
+ENV PORT=5000
+
+# Run app.py when the container launches
+CMD ["python", "app.py"]
