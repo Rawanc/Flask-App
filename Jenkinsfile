@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'python-agent'
+        label 'my-python-agent'
     }
 
     triggers {
