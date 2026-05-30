@@ -2,34 +2,32 @@ pipeline {
     agent {
         label 'python-agent'
     }
-    triggers {
-        pollSCM '*/5 * * * *'
-    }
 
     stages {
-        stage('Build') {
+        stage('Install Dependencies') {
             steps {
-                echo "Building.."
                 sh '''
-                echo "doing build stuff.."
+                python3 -m venv venv
+                . venv/bin/activate
+                pip install -r requirements.txt
                 '''
             }
         }
 
-        stage('Test') {
+        stage('Run Tests') {
             steps {
-                echo "Testing.."
                 sh '''
-                echo "doing test stuff.."
+                . venv/bin/activate
+                pytest
                 '''
             }
         }
 
-        stage('Deliver') {
+        stage('Run Application') {
             steps {
-                echo 'Deliver....'
                 sh '''
-                echo "doing delivery stuff.."
+                . venv/bin/activate
+                python app.py
                 '''
             }
         }
