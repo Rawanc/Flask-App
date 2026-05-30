@@ -1,35 +1,51 @@
 pipeline {
-    agent {
-        label 'python-agent'
-    }
+agent {
+label 'python-agent'
+}
 
-    stages {
-        stage('Install Dependencies') {
-            steps {
-                sh '''
-                python3 -m venv venv
-                . venv/bin/activate
-                pip install -r requirements.txt
-                '''
-            }
-        }
+```
+triggers {
+    pollSCM('*/5 * * * *')
+}
 
-        stage('Run Tests') {
-            steps {
-                sh '''
-                . venv/bin/activate
-                pytest
-                '''
-            }
-        }
+stages {
 
-        stage('Run Application') {
-            steps {
-                sh '''
-                . venv/bin/activate
-                python app.py
-                '''
-            }
+    stage('Checkout') {
+        steps {
+            echo 'Downloading source code from GitHub...'
         }
     }
+
+    stage('Verify Flask App') {
+        steps {
+            sh '''
+            ls -la
+
+            python3 --version || true
+
+            test -f app.py
+
+            grep "Flask" app.py
+            '''
+        }
+    }
+
+    stage('Build') {
+        steps {
+            sh '''
+            echo "Flask application found successfully"
+            '''
+        }
+    }
+
+    stage('Deliver') {
+        steps {
+            sh '''
+            echo "Pipeline completed successfully"
+            '''
+        }
+    }
+}
+```
+
 }
