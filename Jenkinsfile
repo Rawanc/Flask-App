@@ -3,7 +3,6 @@ agent {
 label 'python-agent'
 }
 
-```
 triggers {
     pollSCM('*/5 * * * *')
 }
@@ -46,6 +45,6 @@ stages {
         }
     }
 }
-```
+
 
 }
