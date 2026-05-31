@@ -1,6 +1,7 @@
 pipeline {
-     agent any
-
+    agent {
+        label 'python-agent'
+    }
 
     triggers {
         pollSCM('*/5 * * * *')
